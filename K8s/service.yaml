@@ -3,8 +3,11 @@ kind: Service
 metadata:
   name: demo-api
   namespace: demo-api
+  annotations:
+      service.beta.kubernetes.io/azure-load-balancer-resource-group: MC_Diplomado_demoapi-aks_westus3
+      service.beta.kubernetes.io/azure-pip-name: demo-api-ip
 spec:
-  type: ClusterIP  
+  type: LoadBalancer  
   selector:
     app: demo-api
   ports:
