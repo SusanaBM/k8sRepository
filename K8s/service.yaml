@@ -3,11 +3,26 @@ kind: Service
 metadata:
   name: demo-api
   namespace: demo-api
-  annotations:
-      service.beta.kubernetes.io/azure-load-balancer-resource-group: MC_Diplomado_demoapi-aks_westus3
-      service.beta.kubernetes.io/azure-pip-name: demo-api-ip
 spec:
-  type: LoadBalancer  
+  type: ClusterIP  
+  selector:
+    app: demo-api
+  ports:
+  - port: 80
+    targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress-ingress-nginx-controller
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: MC_Diplomado_demoapi-aks_westus3
+    service.beta.kubernetes.io/azure-pip-name: demo-api-ip
+spec:
+  type: LoadBalancer
   ports:
     - name: http
       port: 80
